@@ -3,16 +3,19 @@ package ailincai.radu.raduailincai.content;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import ailincai.radu.raduailincai.content.network.NetworkRequest;
+import ailincai.radu.raduailincai.model.Comic;
+import ailincai.radu.raduailincai.model.ComicsParser;
 
 public class Marvel {
 
     private static final ExecutorService THREAD_POOL = Executors.newSingleThreadExecutor();
     private static Marvel INSTANCE;
-    private String rawData;
+    private ArrayList<Comic> comics;
 
     public static Marvel getInstance() {
         if (INSTANCE == null) {
@@ -26,7 +29,8 @@ public class Marvel {
             @Override
             public void run() {
                 try {
-                    rawData = NetworkRequest.doGet(MarvelApi.generateMarvelUrl());
+                    String rawData = NetworkRequest.doGet(MarvelApi.generateMarvelUrl());
+                    comics = ComicsParser.parseComics(rawData);
                     notifySuccess(marvelListener);
                 } catch (Exception e) {
                     notifyError(marvelListener);
@@ -55,8 +59,8 @@ public class Marvel {
         });
     }
 
-    public String getComics() {
-        return rawData;
+    public ArrayList<Comic> getComics() {
+        return comics;
     }
 
     public interface MarvelListener {

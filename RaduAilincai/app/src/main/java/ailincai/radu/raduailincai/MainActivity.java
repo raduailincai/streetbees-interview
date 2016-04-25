@@ -2,13 +2,17 @@ package ailincai.radu.raduailincai;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import ailincai.radu.raduailincai.content.Marvel;
+import ailincai.radu.raduailincai.model.Comic;
 
 public class MainActivity extends Activity implements Marvel.MarvelListener {
 
-    private TextView textView;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +25,20 @@ public class MainActivity extends Activity implements Marvel.MarvelListener {
     }
 
     private void initViewReferences() {
-        textView = (TextView) findViewById(R.id.raw_data_text_view);
+        listView = (ListView) findViewById(R.id.main_screen_list_view);
     }
 
     @Override
     public void onSuccess() {
-        textView.setText(Marvel.getInstance().getComics());
+        ArrayList<Comic> comics = Marvel.getInstance().getComics();
+        ArrayList<String> titles = new ArrayList<>();
+        for (Comic currentComic : comics) {
+            titles.add(currentComic.getTitle());
+        }
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titles));
     }
 
     @Override
     public void onError() {
-        textView.setText(R.string.no_network_connection_message);
     }
 }
