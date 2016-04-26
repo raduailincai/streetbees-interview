@@ -15,7 +15,6 @@ public class Marvel {
 
     private static final ExecutorService THREAD_POOL = Executors.newSingleThreadExecutor();
     private static Marvel INSTANCE;
-    private ArrayList<Comic> comics;
 
     public static Marvel getInstance() {
         if (INSTANCE == null) {
@@ -24,14 +23,15 @@ public class Marvel {
         return INSTANCE;
     }
 
-    public void startLoadingData(final MarvelListener marvelListener) {
+    public void fetchComics(final int offset, final int limit, final MarvelListener marvelListener) {
         THREAD_POOL.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String rawData = NetworkRequest.doGet(MarvelApi.generateComicsUrl());
-                    comics = ComicsParser.parseComics(rawData);
-                    notifySuccess(marvelListener);
+                    String url = MarvelApi.generateComicsUrl(offset, limit);
+                    String rawData = NetworkRequest.doGet(url);
+                    ArrayList<Comic> comics = ComicsParser.parseComics(rawData);
+                    notifySuccess(marvelListener, comics);
                 } catch (Exception e) {
                     notifyError(marvelListener);
                 }
@@ -39,12 +39,12 @@ public class Marvel {
         });
     }
 
-    private static void notifySuccess(final MarvelListener marvelListener) {
+    private static void notifySuccess(final MarvelListener marvelListener, final ArrayList<Comic> comics) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
-                marvelListener.onSuccess();
+                marvelListener.onSuccess(comics);
             }
         });
     }
@@ -59,13 +59,9 @@ public class Marvel {
         });
     }
 
-    public ArrayList<Comic> getComics() {
-        return comics;
-    }
-
     public interface MarvelListener {
 
-        void onSuccess();
+        void onSuccess(ArrayList<Comic> comics);
 
         void onError();
 

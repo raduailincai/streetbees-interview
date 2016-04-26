@@ -32,9 +32,13 @@ public class ComicsParser {
         int id = comicBookAsJson.getInt(ID_KEY);
         String title = comicBookAsJson.getString(TITLE_KEY);
         JSONArray images = comicBookAsJson.getJSONArray(IMAGES_KEY);
-        JSONObject firstImageAsJson = images.getJSONObject(0);
-        String firstImagePath = firstImageAsJson.getString(IMAGE_PATH_KEY);
-        String firstImageExtension = firstImageAsJson.getString(IMAGE_EXTENSION_KEY);
+        String firstImagePath = null;
+        String firstImageExtension = null;
+        if (images.length() > 0) {
+            JSONObject firstImageAsJson = images.getJSONObject(0);
+            firstImagePath = firstImageAsJson.getString(IMAGE_PATH_KEY);
+            firstImageExtension = firstImageAsJson.getString(IMAGE_EXTENSION_KEY);
+        }
         return new Comic(id, title, firstImagePath, firstImageExtension);
     }
 

@@ -53,7 +53,7 @@ public class ComicsAdapter extends BaseAdapter {
         final Comic currentComic = comics.get(position);
         holder.titleView.setText(currentComic.getTitle());
         String imageUrl = MarvelApi.generateImageUrl(context, currentComic);
-        Picasso.with(context).load(imageUrl).into(holder.logoView);
+        Picasso.with(context).load(imageUrl).error(android.R.drawable.ic_menu_camera).into(holder.logoView);
         return convertView;
     }
 

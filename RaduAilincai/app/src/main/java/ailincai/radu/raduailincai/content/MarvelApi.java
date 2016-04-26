@@ -17,10 +17,12 @@ public class MarvelApi {
     private static final String TIMESTAMP_PARAMETER_KEY = "ts";
     private static final String API_PARAMETER_KEY = "apikey";
     private static final String HASH_PARAMETER_KEY = "hash";
+    private static final String LIMIT_PARAMETER_KEY = "limit";
+    private static final String OFFSET_PARAMETER_KEY = "offset";
     private static final String PATH_EXTENSION_SEPARATOR = ".";
     private static final String PATH_RESOURCE_SEPARATOR = "/";
 
-    public static String generateComicsUrl() throws NoSuchAlgorithmException {
+    public static String generateComicsUrl(int offset, int limit) throws NoSuchAlgorithmException {
         long currentTimestamp = System.currentTimeMillis();
         String preHash = currentTimestamp + PRIVATE_KEY + PUBLIC_KEY;
         String hash = new Hash(preHash).generateHash(Hash.MD5_ALGORITHM);
@@ -28,6 +30,8 @@ public class MarvelApi {
         uriBuilder.appendQueryParameter(TIMESTAMP_PARAMETER_KEY, String.valueOf(currentTimestamp));
         uriBuilder.appendQueryParameter(API_PARAMETER_KEY, PUBLIC_KEY);
         uriBuilder.appendQueryParameter(HASH_PARAMETER_KEY, hash);
+        uriBuilder.appendQueryParameter(LIMIT_PARAMETER_KEY, String.valueOf(limit));
+        uriBuilder.appendQueryParameter(OFFSET_PARAMETER_KEY, String.valueOf(offset));
         return uriBuilder.toString();
     }
 

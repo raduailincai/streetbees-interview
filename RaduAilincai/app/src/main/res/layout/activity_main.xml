@@ -7,6 +7,23 @@
     <ListView
         android:id="@+id/main_screen_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/main_screen_previous_comics_button"/>
+
+    <Button
+        android:id="@+id/main_screen_previous_comics_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Back"/>
+
+    <Button
+        android:id="@+id/main_screen_next_comics_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Next"/>
 
 </RelativeLayout>
