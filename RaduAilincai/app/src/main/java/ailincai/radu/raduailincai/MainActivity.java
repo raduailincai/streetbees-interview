@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import ailincai.radu.raduailincai.adapters.ComicsAdapter;
 import ailincai.radu.raduailincai.content.Marvel;
 import ailincai.radu.raduailincai.dialogs.LoadingDialog;
+import ailincai.radu.raduailincai.dialogs.MessageDialog;
 import ailincai.radu.raduailincai.model.Comic;
 
 public class MainActivity extends Activity implements Marvel.MarvelListener {
@@ -78,8 +79,15 @@ public class MainActivity extends Activity implements Marvel.MarvelListener {
     }
 
     @Override
-    public void onError() {
+    public void onInternalError() {
         dismissLoadingDialog();
+        new MessageDialog(R.string.internal_error_message).show(this);
+    }
+
+    @Override
+    public void onNetworkError() {
+        dismissLoadingDialog();
+        new MessageDialog(R.string.no_network_connection_message).show(this);
     }
 
     private void refreshListView(ArrayList<Comic> comics) {

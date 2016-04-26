@@ -3,6 +3,10 @@ package ailincai.radu.raduailincai.content;
 import android.os.Handler;
 import android.os.Looper;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,8 +36,10 @@ public class Marvel {
                     String rawData = NetworkRequest.doGet(url);
                     ArrayList<Comic> comics = ComicsParser.parseComics(rawData);
                     notifySuccess(marvelListener, comics);
-                } catch (Exception e) {
-                    notifyError(marvelListener);
+                } catch (NoSuchAlgorithmException | JSONException e) {
+                    notifyInternalError(marvelListener);
+                } catch (IOException e) {
+                    notifyNetworkError(marvelListener);
                 }
             }
         });
@@ -49,12 +55,22 @@ public class Marvel {
         });
     }
 
-    private static void notifyError(final MarvelListener marvelListener) {
+    private static void notifyInternalError(final MarvelListener marvelListener) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
-                marvelListener.onError();
+                marvelListener.onInternalError();
+            }
+        });
+    }
+
+    private static void notifyNetworkError(final MarvelListener marvelListener) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                marvelListener.onNetworkError();
             }
         });
     }
@@ -63,7 +79,9 @@ public class Marvel {
 
         void onSuccess(ArrayList<Comic> comics);
 
-        void onError();
+        void onInternalError();
+
+        void onNetworkError();
 
     }
 
