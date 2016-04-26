@@ -29,7 +29,7 @@ public class Marvel {
             @Override
             public void run() {
                 try {
-                    String rawData = NetworkRequest.doGet(MarvelApi.generateMarvelUrl());
+                    String rawData = NetworkRequest.doGet(MarvelApi.generateComicsUrl());
                     comics = ComicsParser.parseComics(rawData);
                     notifySuccess(marvelListener);
                 } catch (Exception e) {

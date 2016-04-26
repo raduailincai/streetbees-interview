@@ -1,10 +1,13 @@
 package ailincai.radu.raduailincai.content;
 
+import android.content.Context;
 import android.net.Uri;
 
 import java.security.NoSuchAlgorithmException;
 
+import ailincai.radu.raduailincai.R;
 import ailincai.radu.raduailincai.content.encryption.Hash;
+import ailincai.radu.raduailincai.model.Comic;
 
 public class MarvelApi {
 
@@ -14,8 +17,10 @@ public class MarvelApi {
     private static final String TIMESTAMP_PARAMETER_KEY = "ts";
     private static final String API_PARAMETER_KEY = "apikey";
     private static final String HASH_PARAMETER_KEY = "hash";
+    private static final String PATH_EXTENSION_SEPARATOR = ".";
+    private static final String PATH_RESOURCE_SEPARATOR = "/";
 
-    public static String generateMarvelUrl() throws NoSuchAlgorithmException {
+    public static String generateComicsUrl() throws NoSuchAlgorithmException {
         long currentTimestamp = System.currentTimeMillis();
         String preHash = currentTimestamp + PRIVATE_KEY + PUBLIC_KEY;
         String hash = new Hash(preHash).generateHash(Hash.MD5_ALGORITHM);
@@ -26,5 +31,15 @@ public class MarvelApi {
         return uriBuilder.toString();
     }
 
+    public static String generateImageUrl(Context context, Comic comic) {
+        String resourceType = context.getString(R.string.logo_resource_type);
+        StringBuilder imageUrl = new StringBuilder();
+        imageUrl.append(comic.getImagePath());
+        imageUrl.append(PATH_RESOURCE_SEPARATOR);
+        imageUrl.append(resourceType);
+        imageUrl.append(PATH_EXTENSION_SEPARATOR);
+        imageUrl.append(comic.getImageExtension());
+        return imageUrl.toString();
+    }
 
 }

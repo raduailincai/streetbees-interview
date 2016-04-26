@@ -2,11 +2,11 @@ package ailincai.radu.raduailincai;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import ailincai.radu.raduailincai.adapters.ComicsAdapter;
 import ailincai.radu.raduailincai.content.Marvel;
 import ailincai.radu.raduailincai.model.Comic;
 
@@ -31,11 +31,8 @@ public class MainActivity extends Activity implements Marvel.MarvelListener {
     @Override
     public void onSuccess() {
         ArrayList<Comic> comics = Marvel.getInstance().getComics();
-        ArrayList<String> titles = new ArrayList<>();
-        for (Comic currentComic : comics) {
-            titles.add(currentComic.getTitle());
-        }
-        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titles));
+        ComicsAdapter comicsAdapter = new ComicsAdapter(comics);
+        listView.setAdapter(comicsAdapter);
     }
 
     @Override

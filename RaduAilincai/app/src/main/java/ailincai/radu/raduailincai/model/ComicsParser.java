@@ -15,7 +15,6 @@ public class ComicsParser {
     private static final String IMAGES_KEY = "images";
     private static final String IMAGE_PATH_KEY = "path";
     private static final String IMAGE_EXTENSION_KEY = "extension";
-    private static final String PATH_EXTENSION_SEPARATOR = ".";
 
     public static ArrayList<Comic> parseComics(String rawContent) throws JSONException {
         ArrayList<Comic> parsedComics = new ArrayList<>();
@@ -36,8 +35,7 @@ public class ComicsParser {
         JSONObject firstImageAsJson = images.getJSONObject(0);
         String firstImagePath = firstImageAsJson.getString(IMAGE_PATH_KEY);
         String firstImageExtension = firstImageAsJson.getString(IMAGE_EXTENSION_KEY);
-        String firstImageUrl = firstImagePath + PATH_EXTENSION_SEPARATOR + firstImageExtension;
-        return new Comic(id, title, firstImageUrl);
+        return new Comic(id, title, firstImagePath, firstImageExtension);
     }
 
 }
