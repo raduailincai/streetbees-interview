@@ -8,22 +8,36 @@
         android:id="@+id/main_screen_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/main_screen_previous_comics_button"/>
+        android:layout_above="@+id/main_screen_control_panel"/>
 
-    <Button
-        android:id="@+id/main_screen_previous_comics_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/main_screen_control_panel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="Back"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/main_screen_next_comics_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="Next"/>
+        <Button
+            android:id="@+id/main_screen_previous_comics_button"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/main_screen_back_button"/>
+
+        <TextView
+            android:id="@+id/main_screen_status_field"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/main_screen_next_comics_button"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/main_screen_next_button"/>
+    </LinearLayout>
 
 </RelativeLayout>

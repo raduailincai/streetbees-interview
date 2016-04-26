@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import ailincai.radu.raduailincai.R;
+
 public class LoadingDialog {
 
     private AlertDialog loadingDialog;
@@ -14,7 +16,10 @@ public class LoadingDialog {
         mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                loadingDialog = new AlertDialog.Builder(context).setMessage("Please wait...").setCancelable(false).create();
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                dialogBuilder.setMessage(R.string.loading_dialog_message);
+                dialogBuilder.setCancelable(false);
+                loadingDialog = dialogBuilder.create();
             }
         });
     }

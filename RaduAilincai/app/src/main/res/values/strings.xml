@@ -1,7 +1,12 @@
 <resources>
 
     <string name="app_name">RaduAilincai</string>
-    <string name="no_network_connection_message">Please check your network connection!</string>
     <string name="logo_resource_type">standard_medium</string>
+    <string name="no_network_connection_message">Please check your network connection!</string>
+    <string name="default_image_view_description">Default image description</string>
+    <string name="main_screen_back_button">Back</string>
+    <string name="main_screen_next_button">Next</string>
+    <string name="main_screen_status_message_template">%1$d - %2$d</string>
+    <string name="loading_dialog_message">Please wait…</string>
 
 </resources>
