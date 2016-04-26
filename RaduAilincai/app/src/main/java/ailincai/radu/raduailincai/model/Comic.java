@@ -1,17 +1,17 @@
 package ailincai.radu.raduailincai.model;
 
+import java.util.ArrayList;
+
 public class Comic {
 
     private final int id;
     private final String title;
-    private final String imagePath;
-    private final String imageExtension;
+    private final ArrayList<Image> images;
 
-    public Comic(int id, String title, String imagePath, String imageExtension) {
+    public Comic(int id, String title, ArrayList<Image> images) {
         this.id = id;
         this.title = title;
-        this.imagePath = imagePath;
-        this.imageExtension = imageExtension;
+        this.images = images;
     }
 
     public int getId() {
@@ -22,11 +22,7 @@ public class Comic {
         return title;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public String getImageExtension() {
-        return imageExtension;
+    public ArrayList<Image> getImages() {
+        return images;
     }
 }

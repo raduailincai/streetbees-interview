@@ -21,8 +21,8 @@ public class ComicsParser {
         JSONObject fullResponseAsJson = new JSONObject(rawContent);
         JSONObject dataAsJson = fullResponseAsJson.getJSONObject(DATA_KEY);
         JSONArray resultsAsJson = dataAsJson.getJSONArray(RESULTS_KEY);
-        for (int jsonObjectIndex = 0; jsonObjectIndex < resultsAsJson.length(); jsonObjectIndex++) {
-            Comic newComicBook = parseComic(resultsAsJson.getJSONObject(jsonObjectIndex));
+        for (int comicIndex = 0; comicIndex < resultsAsJson.length(); comicIndex++) {
+            Comic newComicBook = parseComic(resultsAsJson.getJSONObject(comicIndex));
             parsedComics.add(newComicBook);
         }
         return parsedComics;
@@ -32,14 +32,18 @@ public class ComicsParser {
         int id = comicBookAsJson.getInt(ID_KEY);
         String title = comicBookAsJson.getString(TITLE_KEY);
         JSONArray images = comicBookAsJson.getJSONArray(IMAGES_KEY);
-        String firstImagePath = null;
-        String firstImageExtension = null;
-        if (images.length() > 0) {
-            JSONObject firstImageAsJson = images.getJSONObject(0);
-            firstImagePath = firstImageAsJson.getString(IMAGE_PATH_KEY);
-            firstImageExtension = firstImageAsJson.getString(IMAGE_EXTENSION_KEY);
+        ArrayList<Image> parsedImages = new ArrayList<>();
+        for (int imageIndex = 0; imageIndex < images.length(); imageIndex++) {
+            Image newImage = parseImage(images.getJSONObject(imageIndex));
+            parsedImages.add(newImage);
         }
-        return new Comic(id, title, firstImagePath, firstImageExtension);
+        return new Comic(id, title, parsedImages);
+    }
+
+    private static Image parseImage(JSONObject imageAsJson) throws JSONException {
+        String imagePath = imageAsJson.getString(IMAGE_PATH_KEY);
+        String imageExtension = imageAsJson.getString(IMAGE_EXTENSION_KEY);
+        return new Image(imagePath, imageExtension);
     }
 
 }

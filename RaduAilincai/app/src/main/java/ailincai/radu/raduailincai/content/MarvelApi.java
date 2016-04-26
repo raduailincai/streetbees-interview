@@ -5,12 +5,15 @@ import android.net.Uri;
 
 import java.security.NoSuchAlgorithmException;
 
+import ailincai.radu.raduailincai.ApplicationContext;
 import ailincai.radu.raduailincai.R;
 import ailincai.radu.raduailincai.content.encryption.Hash;
 import ailincai.radu.raduailincai.model.Comic;
+import ailincai.radu.raduailincai.model.Image;
 
 public class MarvelApi {
 
+    private static final String DEFAULT_IMAGE_URL = "http://1x1px.me/FF0000-1.png";
     private static final String ROOT_URL = "http://gateway.marvel.com/v1/public/comics";
     private static final String PUBLIC_KEY = "ac63288ed3d30e8ce32a5cf9b4a93645";
     private static final String PRIVATE_KEY = "4c9089ccee4afcb16fb0700ee6f6e5dcc8c2f7c4";
@@ -35,15 +38,20 @@ public class MarvelApi {
         return uriBuilder.toString();
     }
 
-    public static String generateImageUrl(Context context, Comic comic) {
-        String resourceType = context.getString(R.string.logo_resource_type);
-        StringBuilder imageUrl = new StringBuilder();
-        imageUrl.append(comic.getImagePath());
-        imageUrl.append(PATH_RESOURCE_SEPARATOR);
-        imageUrl.append(resourceType);
-        imageUrl.append(PATH_EXTENSION_SEPARATOR);
-        imageUrl.append(comic.getImageExtension());
-        return imageUrl.toString();
+    public static String generateImageUrl(Comic comic) {
+        if (comic.getImages().size() > 0) {
+            Context applicationContext = ApplicationContext.getApplicationContext();
+            Image firstImage = comic.getImages().get(0);
+            String resourceType = applicationContext.getString(R.string.logo_resource_type);
+            StringBuilder imageUrl = new StringBuilder();
+            imageUrl.append(firstImage.getPath());
+            imageUrl.append(PATH_RESOURCE_SEPARATOR);
+            imageUrl.append(resourceType);
+            imageUrl.append(PATH_EXTENSION_SEPARATOR);
+            imageUrl.append(firstImage.getExtension());
+            return imageUrl.toString();
+        }
+        return DEFAULT_IMAGE_URL;
     }
 
 }

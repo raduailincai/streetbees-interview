@@ -13,14 +13,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import ailincai.radu.raduailincai.R;
-import ailincai.radu.raduailincai.content.MarvelApi;
-import ailincai.radu.raduailincai.model.Comic;
 
 public class ComicsAdapter extends BaseAdapter {
 
-    private final ArrayList<Comic> comics;
+    private final ArrayList<ComicWrapper> comics;
 
-    public ComicsAdapter(ArrayList<Comic> comics) {
+    public ComicsAdapter(ArrayList<ComicWrapper> comics) {
         this.comics = comics;
     }
 
@@ -50,10 +48,11 @@ public class ComicsAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         final ViewHolder holder = (ViewHolder) convertView.getTag();
-        final Comic currentComic = comics.get(position);
-        holder.titleView.setText(currentComic.getTitle());
-        String imageUrl = MarvelApi.generateImageUrl(context, currentComic);
-        Picasso.with(context).load(imageUrl).error(android.R.drawable.ic_menu_camera).into(holder.logoView);
+        final ComicWrapper currentComicWrapper = comics.get(position);
+        holder.titleView.setText(currentComicWrapper.getTitle());
+        Picasso.with(context)
+                .load(currentComicWrapper.getImageUrl())
+                .into(holder.logoView);
         return convertView;
     }
 
